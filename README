@@ -1,4 +1,8 @@
-# Cross compilation of QNX
+# HelloQnx
+
+A simple toy project to teach getting starting to QNX
+
+## Setting up QNX license
 
 1. Register yourself with qnx.com
 1. Setup the license and get the details. Add QNX Software Development Platform 8.0 - Perpetual - Developer License - Non-Commercial Single-User License (Non-Commercial/Academic License Class) (ver. 8.0)
@@ -13,15 +17,25 @@ Info: Remote license activation is not required for this key
 [XXXX-XXXX-XXXX-XXXX-XXXX] - Activated - QNX Software Development Platform 8.0 Education
 ```
 
+## Setting up QNX toolchain
+
 1. Download the SDP and extract it to `/path/qnx/sdp/`
 
-1. Source the sdp and compile it using Makefile
+1. Source the sdp and to compile your code
 
 ```sh
 . ~/qnx800/qnxsdp-env.sh
 QNX_HOST=~/qnx800~/host/linux/x86_64
 QNX_TARGET=~/qnx800/target/qnx
 MAKEFLAGS=-I~/qnx800/target/qnx/usr/include
+```
+
+## Cross compilation of QNX
+
+1. Source the sdp and compile it using Makefile
+
+```sh
+. ~/qnx800/qnxsdp-env.sh
 
 make
 qcc -Vgcc_ntoaarch64le -c -Wp,-MMD,build/aarch64le-debug/src/HelloQnx.d,-MT,build/aarch64le-debug/src/HelloQnx.o -o build/aarch64le-debug/src/HelloQnx.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/HelloQnx.c
