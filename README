@@ -1,0 +1,33 @@
+# Cross compilation of QNX
+
+1. Register yourself with qnx.com
+2. Setup the license and get the details. Add QNX Software Development Platform 8.0 - Perpetual - Developer License - Non-Commercial Single-User License (Non-Commercial/Academic License Class) (ver. 8.0)
+3. Add License key
+
+```sh
+~ qlicense -userEmail your@email.com -activateLicenseKey XXXX-XXXX-XXXX-XXXX-XXXX
+License key is added: XXXX-XXXX-XXXX-XXXX-XXXX
+Info: Remote license activation is not required for this key
+
+~ qlicense -listLicenseKeys
+[XXXX-XXXX-XXXX-XXXX-XXXX] - Activated - QNX Software Development Platform 8.0 Education
+```
+
+4. Download the SDP and extract it to `/path/qnx/sdp/`
+
+5. Source the sdp and compile it
+
+```sh
+. ~/qnx800/qnxsdp-env.sh
+QNX_HOST=~/qnx800~/host/linux/x86_64
+QNX_TARGET=~/qnx800/target/qnx
+MAKEFLAGS=-I~/qnx800/target/qnx/usr/include
+
+make
+qcc -Vgcc_ntoaarch64le -c -Wp,-MMD,build/aarch64le-debug/src/HelloQnx.d,-MT,build/aarch64le-debug/src/HelloQnx.o -o build/aarch64le-debug/src/HelloQnx.o  -Wall -fmessage-length=0 -g -O0 -fno-builtin  src/HelloQnx.c
+qcc -Vgcc_ntoaarch64le -o build/aarch64le-debug/HelloQnx   build/aarch64le-debug/src/HelloQnx.o
+
+
+file build/aarch64le-debug/HelloQnx
+build/aarch64le-debug/HelloQnx: ELF 64-bit LSB pie executable, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /usr/lib/ldqnx-64.so.2, BuildID[md5/uuid]=5301bc68758143560905d3a7441dd253, with debug_info, not stripped
+```
