@@ -48,3 +48,20 @@ file build/cmake-aarch64le-debug/HelloQnx
 
 To build for another QNX architecture, set `QNX_ARCH` to the corresponding
 processor name, such as `x86_64`.
+
+## Nix development environment
+
+The Nix shell provides CMake and Ninja. The QNX SDP remains installed outside
+Nix because it requires QNX licensing.
+
+```sh
+bash
+. ~/qnx800/qnxsdp-env.sh
+nix develop
+
+cmake -S . -B build/cmake-aarch64le-debug -G Ninja -DCMAKE_TOOLCHAIN_FILE=cmake/qnx-toolchain.cmake -DQNX_ARCH=aarch64le -DCMAKE_BUILD_TYPE=Debug
+cmake --build build/cmake-aarch64le-debug
+```
+
+The flake uses the NixOS 24.05 package set. Commit both `flake.nix` and the
+generated `flake.lock` so every team member receives the same tool versions.
