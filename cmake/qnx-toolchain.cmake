@@ -1,0 +1,7 @@
+set(CMAKE_SYSTEM_NAME QNX)
+
+set(QNX_ARCH "aarch64le" CACHE STRING "QNX target architecture")
+set(CMAKE_SYSTEM_PROCESSOR "${QNX_ARCH}")
+
+find_program(CMAKE_C_COMPILER qcc HINTS "$ENV{QNX_HOST}/usr/bin" REQUIRED)
+set(CMAKE_C_COMPILER_TARGET "gcc_nto${QNX_ARCH}")

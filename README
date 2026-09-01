@@ -1,8 +1,8 @@
 # Cross compilation of QNX
 
 1. Register yourself with qnx.com
-2. Setup the license and get the details. Add QNX Software Development Platform 8.0 - Perpetual - Developer License - Non-Commercial Single-User License (Non-Commercial/Academic License Class) (ver. 8.0)
-3. Add License key
+1. Setup the license and get the details. Add QNX Software Development Platform 8.0 - Perpetual - Developer License - Non-Commercial Single-User License (Non-Commercial/Academic License Class) (ver. 8.0)
+1. Add License key
 
 ```sh
 ~ qlicense -userEmail your@email.com -activateLicenseKey XXXX-XXXX-XXXX-XXXX-XXXX
@@ -13,9 +13,9 @@ Info: Remote license activation is not required for this key
 [XXXX-XXXX-XXXX-XXXX-XXXX] - Activated - QNX Software Development Platform 8.0 Education
 ```
 
-4. Download the SDP and extract it to `/path/qnx/sdp/`
+1. Download the SDP and extract it to `/path/qnx/sdp/`
 
-5. Source the sdp and compile it
+1. Source the sdp and compile it using Makefile
 
 ```sh
 . ~/qnx800/qnxsdp-env.sh
@@ -31,3 +31,20 @@ qcc -Vgcc_ntoaarch64le -o build/aarch64le-debug/HelloQnx   build/aarch64le-debug
 file build/aarch64le-debug/HelloQnx
 build/aarch64le-debug/HelloQnx: ELF 64-bit LSB pie executable, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /usr/lib/ldqnx-64.so.2, BuildID[md5/uuid]=5301bc68758143560905d3a7441dd253, with debug_info, not stripped
 ```
+
+1. Compile using CMake
+
+Source the QNX SDP environment, configure CMake with the QNX toolchain, and
+build the executable:
+
+```sh
+. ~/qnx800/qnxsdp-env.sh
+
+cmake -S . -B build/cmake-aarch64le-debug -DCMAKE_TOOLCHAIN_FILE=cmake/qnx-toolchain.cmake -DQNX_ARCH=aarch64le -DCMAKE_BUILD_TYPE=Debug
+cmake --build build/cmake-aarch64le-debug
+
+file build/cmake-aarch64le-debug/HelloQnx
+```
+
+To build for another QNX architecture, set `QNX_ARCH` to the corresponding
+processor name, such as `x86_64`.
