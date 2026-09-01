@@ -65,3 +65,16 @@ cmake --build build/cmake-aarch64le-debug
 
 The flake uses the NixOS 24.05 package set. Commit both `flake.nix` and the
 generated `flake.lock` so every team member receives the same tool versions.
+
+## Raspberry Pi 5 Linux cross compilation
+
+Enter the Nix environment and cross-compile for 64-bit Linux on Raspberry Pi 5:
+
+```sh
+nix develop
+
+cmake -S . -B build/raspberry-pi-5-debug -G Ninja -DCMAKE_TOOLCHAIN_FILE=cmake/raspberry-pi-5-linux-toolchain.cmake -DCMAKE_BUILD_TYPE=Debug
+cmake --build build/raspberry-pi-5-debug
+
+file build/raspberry-pi-5-debug/HelloQnx
+```
